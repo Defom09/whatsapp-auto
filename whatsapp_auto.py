@@ -4,7 +4,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-from urllib.parse import quote as url_quote
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -25,9 +24,10 @@ def send_messages():
         numbers = request.form['numbers'].strip().split('\n')
         message = request.form['message']
 
-        # Configure Chrome options
+        # Configure Chrome options to use Chromium in Render
         options = Options()
         options.add_argument("--start-maximized")  # Maximize the browser window
+        options.binary_location = "/usr/bin/chromium"  # Path to Chromium binary in Render
 
         # Set up ChromeDriver service
         service = Service(ChromeDriverManager().install())
