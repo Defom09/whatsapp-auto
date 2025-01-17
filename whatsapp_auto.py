@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import webbrowser
+import os
 
 app = Flask(__name__)
 
@@ -66,6 +67,11 @@ def send_messages():
         return jsonify({'status': 'error', 'message': str(e)})
 
 if __name__ == '__main__':
-    # Automatically open the app in the default browser
+    # Automatically open the app in the default browser (for local usage, not necessary on Render)
     webbrowser.open("http://127.0.0.1:5000")
-    app.run(debug=True)
+    
+    # Get the port from the environment variable, default to 5000 if not set by Render
+    port = int(os.getenv('PORT', 5000))
+    
+    # Run the app with the correct host and port for Render
+    app.run(debug=True, host='0.0.0.0', port=port)
